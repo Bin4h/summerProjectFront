@@ -1,11 +1,34 @@
 
 <template>
-    <h1>Hello</h1>
+    <div v-if="state.singers.length" class="singer-cards">
+        <SingerCard v-for="singer in state.singers" :key="singer.id" :singer="singer"/>
+    </div>
 </template>
 
-<script>
-fetch('https://localhost:7103/api/Singer/getSingerList')
-    .then(res => console.log(res.json()))
+<script setup>
+import { ref, onMounted } from 'vue';
+import SingerCard from './SingerCard.vue';
 
-console.log(1)
+const getSingers = (async () => {
+    const response = await fetch('https://localhost:7103/api/Singer/getSingerList');
+    return await response.json();
+})
+
+const state = ref({
+    singers: []
+});
+
+onMounted(async () => {
+    state.value.singers = await getSingers();
+});
 </script>
+
+<style>
+.singer-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    background-color: #f5f5f5;
+}
+</style>
