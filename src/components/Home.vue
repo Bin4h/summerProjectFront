@@ -1,5 +1,6 @@
 
 <template>
+    <P>Home</P>
     <div v-if="state.singers.length" class="singer-list">
         <SingerCard v-for="singer in state.singers" :key="singer.id" :singer="singer"/>
     </div>
