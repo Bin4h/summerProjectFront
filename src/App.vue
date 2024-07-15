@@ -9,5 +9,5 @@
 import Home from './components/Home.vue'
 </script>
 
-<style scoped>
+<style>
 </style>

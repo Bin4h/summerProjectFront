@@ -5,10 +5,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import Home from './components/Home.vue'
 import User from './components/User.vue'
+import Authorise from './components/Authorise.vue'
 
 const routes = [
-    { path: "/", component: Home },
-    { path: "/singer", component: User }
+    { path: "/", component: Authorise }
 ]
   
 const router = createRouter({
