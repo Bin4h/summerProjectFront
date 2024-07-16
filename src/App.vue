@@ -1,11 +1,12 @@
 
 <template>
-  <Hello />
+  <div id="app">
+    <RouterView />
+  </div>
 </template>
 
 <script setup>
-import Hello from "./components/Home.vue"
 </script>
 
-<style scoped>
+<style>
 </style>
