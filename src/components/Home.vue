@@ -1,6 +1,5 @@
 
 <template>
-    <P>Home</P>
     <div v-if="state.singers.length" class="singer-list">
         <SingerCard v-for="singer in state.singers" :key="singer.id" :singer="singer"/>
     </div>
@@ -20,14 +19,16 @@ const state = ref({
 });
 
 onMounted(async () => {
-    state.value.singers = await getSingers();
+    state.value.singers = await getSingers(),
+    console.log(state.value.singers);
 });
 </script>
 
 <style>
 .singer-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 16px;
     padding: 16px;
     background-color: #f5f5f5;

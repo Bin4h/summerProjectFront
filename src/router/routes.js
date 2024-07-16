@@ -1,9 +1,9 @@
 import Home from "@/components/Home.vue";
-import User from "@/components/User.vue";
+import SingerPage from "@/components/SingerPage.vue";
 
 const routes = [
     { path: "/", component: Home },
-    { path: "/singer", component: User }
+    { path: "/singer/:id", component: SingerPage }
 ]
 
 export default routes;
