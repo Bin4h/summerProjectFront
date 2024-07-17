@@ -22,6 +22,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import router from '@/router';
 
 export default {
   setup() {
@@ -34,7 +35,10 @@ export default {
     };
 
     const handleSubmit = () => {
-      if (isLogin.value) {
+      
+      localStorage.setItem('isAuthorised', 'true');
+      router.push(`/`);
+      /*if (isLogin.value) {
         const authUser = (async () => {
             const response = await fetch('https://localhost:7103/api/User/authoriseUser');
             return await response.json();
@@ -51,7 +55,7 @@ export default {
         console.log('Вход', { username: username.value, password: password.value, status: state.value.user });
       } else {
         console.log('Регистрация', { username: username.value, password: password.value });
-      }
+      }*/
     };
 
     return {

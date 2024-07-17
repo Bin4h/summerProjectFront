@@ -18,6 +18,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import router from '@/router';
 
 const route = useRoute();
 const state = ref({
@@ -35,7 +36,10 @@ const getSinger = async () => {
 
 onMounted(async () => {
     state.value.singer = await getSinger();
-    console.log(state.value.singer);
+    const isAuthorised = localStorage.getItem("isAuthorised");
+    if (!isAuthorised) {
+        router.push('/login');
+    }
 });
 </script>
 

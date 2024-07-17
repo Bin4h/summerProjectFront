@@ -19,8 +19,7 @@ const state = ref({
 });
 
 onMounted(async () => {
-    state.value.singers = await getSingers(),
-    console.log(state.value.singers);
+    state.value.singers = await getSingers();
 });
 </script>
 
