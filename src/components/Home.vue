@@ -8,7 +8,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import SingerCard from './SingerCard.vue';
-import router from '@/router';
 
 const getSingers = (async () => {
     const response = await fetch('https://localhost:7103/api/Singer/getSingerList');
@@ -20,10 +19,6 @@ const state = ref({
 });
 
 onMounted(async () => {
-    const isAuthorised = localStorage.getItem("isAuthorised");
-    if (!isAuthorised) {
-        router.push('/login');
-    }
     state.value.singers = await getSingers();
 });
 </script>
