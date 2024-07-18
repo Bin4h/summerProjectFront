@@ -10,7 +10,19 @@
             <a :href="state.singer.link" target="_blank">Official Website</a>
         </div>
         <div class="albums">
-            <!-- Список альбомов будет добавлен позже -->
+            <h2>Выпущенные альбомы</h2>
+            <div v-if="state.singer.albums.length">
+                <ul>
+                    <li v-for="(album, index) in state.singer.albums" :key="album.id" class="album">
+                        <h3 @click="this.$router.push(`/track/${index}`)">{{ album.title }}</h3>
+                        <p>Год релиза: {{ album.releaseYear }}</p>
+                        <p>{{ album.description }}</p>
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <p>No albums available.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -25,7 +37,8 @@ const state = ref({
     singer: {
         name: '',
         description: '',
-        link: ''
+        link: '',
+        albums: []
     }
 });
 
@@ -36,6 +49,7 @@ const getSinger = async () => {
 
 onMounted(async () => {
     state.value.singer = await getSinger();
+    console.log(state.value.singer);
     const isAuthorised = localStorage.getItem("isAuthorised");
     if (!isAuthorised) {
         router.push('/login');
@@ -87,6 +101,38 @@ onMounted(async () => {
 }
 
 .albums {
-    /* Добавить стили для альбомов позже */
+    margin-top: 20px;
+}
+
+.albums h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.albums ul {
+    list-style: none;
+    padding: 0;
+}
+
+.album {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.album h3 {
+    cursor: pointer;
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.album p {
+    margin: 5px 0;
+    color: #666;
 }
 </style>
