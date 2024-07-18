@@ -16,12 +16,13 @@
           <button type="button" @click="toggleMode">{{ isLogin ? 'Переключиться на Регистрацию' : 'Переключиться на Вход' }}</button>
         </div>
       </form>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import router from '@/router';
 
 export default {
@@ -29,39 +30,66 @@ export default {
     const isLogin = ref(true);
     const username = ref('');
     const password = ref('');
+    const errorMessage = ref('');
 
     const toggleMode = () => {
       isLogin.value = !isLogin.value;
+      errorMessage.value = '';
     };
 
-    const handleSubmit = () => {
-      
-      localStorage.setItem('isAuthorised', 'true');
-      router.push(`/`);
-      /*if (isLogin.value) {
-        const authUser = (async () => {
-            const response = await fetch('https://localhost:7103/api/User/authoriseUser');
-            return await response.json();
-        })
+    const handleSubmit = async () => {
+      if (isLogin.value) {
+        try {
+          var userDto = {
+            login: username.value,
+            password: password.value
+          }
 
-        const state = ref({
-            user
-        });
+          const response = await fetch(`https://localhost:7103/api/User/authoriseUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userDto)
+          });
 
-        onMounted(async () => {
-            state.value.user = await authoriseUser(username, password);
-        });
-
-        console.log('Вход', { username: username.value, password: password.value, status: state.value.user });
+          const data = await response.json(userDto);
+          if (data) {
+            localStorage.setItem('isAuthorised', 'true');
+            router.push('/');
+          } else {
+            errorMessage.value = 'Ошибка авторизации. Проверьте логин и пароль.';
+          }
+        } catch (error) {
+          errorMessage.value = 'Ошибка при выполнении запроса. Пожалуйста, попробуйте позже.';
+        }
       } else {
-        console.log('Регистрация', { username: username.value, password: password.value });
-      }*/
+        try {
+          var userDto = {
+            login: username.value,
+            password: password.value
+          }
+
+          const response = await fetch(`https://localhost:7103/api/User/addUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userDto)
+          });
+          localStorage.setItem('isAuthorised', 'true');
+          router.push('/');
+        } catch (error) {
+          errorMessage.value = 'Ошибка при выполнении запроса. Пожалуйста, попробуйте позже.';
+        }
+      }
     };
 
     return {
       isLogin,
       username,
       password,
+      errorMessage,
       toggleMode,
       handleSubmit,
     };
@@ -74,7 +102,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #fff; /* Фон страницы белый */
+  background-color: #fff; 
 }
 
 .auth-container {
@@ -82,7 +110,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fff; /* Фон контейнера белый */
+  background-color: #fff; 
 }
 
 .auth-form {
@@ -143,5 +171,10 @@ body {
 
 .form-actions button[type="button"]:hover {
   background-color: #5a6268;
+}
+
+.error-message {
+  color: #ff0000;
+  margin-top: 16px;
 }
 </style>
