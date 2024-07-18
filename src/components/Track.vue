@@ -36,10 +36,6 @@ export default {
 
         onMounted(async () => {
             state.value.singer.tracks = await getTracks();
-            const isAuthorised = localStorage.getItem("isAuthorised");
-            if (!isAuthorised) {
-                router.push('/login');
-            }
         });
 
         return {

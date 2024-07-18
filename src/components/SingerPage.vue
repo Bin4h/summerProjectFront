@@ -7,7 +7,7 @@
             <p>{{ state.singer.description }}</p>
         </div>
         <div class="link">
-            <a :href="state.singer.link" target="_blank">Official Website</a>
+            <a :href="state.singer.link" target="_blank">{{state.singer.link}}</a>
         </div>
         <div class="albums">
             <h2>Выпущенные альбомы</h2>

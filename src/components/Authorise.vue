@@ -40,8 +40,20 @@ export default {
     const handleSubmit = async () => {
       if (isLogin.value) {
         try {
-          const response = await fetch(`https://localhost:7103/api/User/authoriseUser/${username.value}/${password.value}`);
-          const data = await response.json();
+          var userDto = {
+            login: username.value,
+            password: password.value
+          }
+
+          const response = await fetch(`https://localhost:7103/api/User/authoriseUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userDto)
+          });
+
+          const data = await response.json(userDto);
           if (data) {
             localStorage.setItem('isAuthorised', 'true');
             router.push('/');
@@ -53,8 +65,18 @@ export default {
         }
       } else {
         try {
-          const response = await fetch(`https://localhost:7103/api/User/addUser/${username.value}/${password.value}`);
-          console.log(response);
+          var userDto = {
+            login: username.value,
+            password: password.value
+          }
+
+          const response = await fetch(`https://localhost:7103/api/User/addUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userDto)
+          });
           localStorage.setItem('isAuthorised', 'true');
           router.push('/');
         } catch (error) {
